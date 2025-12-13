@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Answer Notifier 옵션</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --fg: #111;
+        --muted: #666;
+        --card: #fff;
+        --border: rgba(0, 0, 0, 0.12);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --fg: #f3f4f6;
+          --muted: #a1a1aa;
+          --card: #111827;
+          --border: rgba(255, 255, 255, 0.12);
+        }
+      }
+      body {
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple SD Gothic Neo",
+          "Noto Sans KR", "Malgun Gothic", sans-serif;
+        margin: 0;
+        padding: 24px;
+        color: var(--fg);
+        background: transparent;
+      }
+      .wrap {
+        max-width: 720px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-size: 18px;
+        margin: 0 0 8px;
+      }
+      p {
+        margin: 0 0 16px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+      .card {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 16px;
+        background: var(--card);
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .row:last-child {
+        border-bottom: 0;
+      }
+      .label {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .label strong {
+        font-size: 14px;
+      }
+      .label span {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .status {
+        margin-top: 12px;
+        font-size: 12px;
+        color: var(--muted);
+        min-height: 16px;
+      }
+      input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>AI Answer Notifier 옵션</h1>
+      <p>각 사이트에서 답변 생성이 완료되면 macOS 시스템 알림(Chrome Notifications)을 표시합니다.</p>
+
+      <div class="card">
+        <div class="row">
+          <div class="label">
+            <strong>전체 활성화</strong>
+            <span>확장프로그램 알림 기능을 켜거나 끕니다.</span>
+          </div>
+          <input id="enabled" type="checkbox" />
+        </div>
+
+        <div class="row">
+          <div class="label">
+            <strong>ChatGPT</strong>
+            <span>`chat.openai.com`, `chatgpt.com`</span>
+          </div>
+          <input id="site-chatgpt" type="checkbox" />
+        </div>
+
+        <div class="row">
+          <div class="label">
+            <strong>Gemini</strong>
+            <span>`gemini.google.com`</span>
+          </div>
+          <input id="site-gemini" type="checkbox" />
+        </div>
+
+        <div class="row">
+          <div class="label">
+            <strong>Claude</strong>
+            <span>`claude.ai`</span>
+          </div>
+          <input id="site-claude" type="checkbox" />
+        </div>
+      </div>
+
+      <div id="status" class="status"></div>
+    </div>
+
+    <script src="options.js"></script>
+  </body>
+</html>
+
+

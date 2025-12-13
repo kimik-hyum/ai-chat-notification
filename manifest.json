@@ -1,0 +1,41 @@
+{
+  "manifest_version": 3,
+  "name": "AI Answer Notifier (ChatGPT/Gemini/Claude)",
+  "version": "0.1.0",
+  "description": "ChatGPT/Gemini/Claude 웹에서 답변 생성이 완료되면 시스템 알림을 표시합니다.",
+  "permissions": ["notifications", "storage"],
+  "host_permissions": [
+    "https://chat.openai.com/*",
+    "https://chatgpt.com/*",
+    "https://gemini.google.com/*",
+    "https://claude.ai/*"
+  ],
+  "background": {
+    "service_worker": "service_worker.js"
+  },
+  "icons": {
+    "16": "icons/icon_16.png",
+    "48": "icons/icon_48.png",
+    "128": "icons/icon_128.png"
+  },
+  "options_page": "options.html",
+  "content_scripts": [
+    {
+      "matches": ["https://chat.openai.com/*", "https://chatgpt.com/*"],
+      "js": ["content/common.js", "content/chatgpt.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://gemini.google.com/*"],
+      "js": ["content/common.js", "content/gemini.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://claude.ai/*"],
+      "js": ["content/common.js", "content/claude.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}
+
+
