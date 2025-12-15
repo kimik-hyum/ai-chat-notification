@@ -1,4 +1,10 @@
 (() => {
+  // service worker에서 스크립트를 재주입할 수 있어, 중복 초기화를 막는다.
+  // eslint-disable-next-line no-undef
+  if (self.__AI_ANSWER_NOTIFIER_CLAUDE_INIT__ === true) return;
+  // eslint-disable-next-line no-undef
+  self.__AI_ANSWER_NOTIFIER_CLAUDE_INIT__ = true;
+
   /** @type {{ createCompletionWatcher?: (cfg: unknown) => void }} */
   // eslint-disable-next-line no-undef
   const api = self.AIAnswerNotifier || {};

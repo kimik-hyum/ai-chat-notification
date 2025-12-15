@@ -11,6 +11,55 @@ const DEFAULT_SETTINGS = Object.freeze({
 // Chrome notifications의 `basic` 타입은 iconUrl이 사실상 필수입니다.
 // 알림 아이콘으로 앱 아이콘(PNG)을 사용합니다.
 
+const CONTENT_SCRIPT_SETS = [
+  {
+    matches: ["https://chat.openai.com/*", "https://chatgpt.com/*"],
+    files: ["content/common.js", "content/chatgpt.js"]
+  },
+  {
+    matches: ["https://gemini.google.com/*"],
+    files: ["content/common.js", "content/gemini.js"]
+  },
+  {
+    matches: ["https://claude.ai/*"],
+    files: ["content/common.js", "content/claude.js"]
+  }
+];
+
+/**
+ * 설치/업데이트 후 이미 열려 있던 탭에는 content_scripts가 자동으로 주입되지 않을 수 있어,
+ * 대상 사이트 탭에 스크립트를 수동 주입해 “새로고침 없이” 정상 동작하게 만든다.
+ */
+async function injectIntoExistingAiTabs() {
+  for (const set of CONTENT_SCRIPT_SETS) {
+    let tabs = [];
+    try {
+      tabs = await chrome.tabs.query({ url: set.matches });
+    } catch {
+      continue;
+    }
+    for (const tab of tabs) {
+      if (!tab || typeof tab.id !== "number") continue;
+      try {
+        await chrome.scripting.executeScript({
+          target: { tabId: tab.id },
+          files: set.files
+        });
+      } catch {
+        // 탭 상태(로딩 중), 권한, CSP 등으로 실패할 수 있으나 백업으로 content_scripts가 동작할 수 있음
+      }
+    }
+  }
+}
+
+chrome.runtime.onInstalled.addListener(() => {
+  void injectIntoExistingAiTabs();
+});
+
+chrome.runtime.onStartup.addListener(() => {
+  void injectIntoExistingAiTabs();
+});
+
 /** @param {unknown} v */
 function isObject(v) {
   return typeof v === "object" && v !== null && !Array.isArray(v);

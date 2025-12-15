@@ -3,7 +3,7 @@
   "name": "AI Answer Notifier (ChatGPT/Gemini/Claude)",
   "version": "0.1.0",
   "description": "ChatGPT/Gemini/Claude 웹에서 답변 생성이 완료되면 시스템 알림을 표시합니다.",
-  "permissions": ["notifications", "storage"],
+  "permissions": ["notifications", "storage", "scripting", "tabs"],
   "host_permissions": [
     "https://chat.openai.com/*",
     "https://chatgpt.com/*",
